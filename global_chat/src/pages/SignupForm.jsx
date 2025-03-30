@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
 import {
   Eye,
   EyeOff,
+  Loader2,
   MessageSquare,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -15,6 +17,8 @@ const SignupForm = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const { signup, isSigningUp } = useAuthStore();
 
   const validateForm = () => {
     if (!formData.fullName.trim()) return toast.error("Full name is required");
@@ -31,7 +35,8 @@ const SignupForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    validateForm();
+    const success = validateForm();
+    if (success === true) signup(formData);
   };
 
   return (
@@ -60,6 +65,7 @@ const SignupForm = () => {
             name="fullName"
             placeholder="Full Name"
             className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
+           
             value={formData.fullName}
             onChange={(e) =>
               setFormData({ ...formData, fullName: e.target.value })
@@ -70,6 +76,7 @@ const SignupForm = () => {
             name="email"
             placeholder="Email"
             className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
+        
             value={formData.email}
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
@@ -81,6 +88,7 @@ const SignupForm = () => {
               name="password"
               placeholder="Password"
               className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
+             
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -103,6 +111,7 @@ const SignupForm = () => {
             name="confirmPassword"
             placeholder="Confirm Password"
             className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
+           
             value={formData.confirmPassword}
             onChange={(e) =>
               setFormData({ ...formData, confirmPassword: e.target.value })
@@ -111,8 +120,13 @@ const SignupForm = () => {
           <button
             type="submit"
             className="w-full py-3 text-sm text-white transition rounded-md shadow-lg md:text-base bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-90"
+            disabled={isSigningUp}
           >
-            Signup
+            {isSigningUp ? (
+              <Loader2 className="size-5 animate-spin" />
+            ) : (
+              "Signup"
+            )}
           </button>
         </form>
 
