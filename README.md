@@ -258,7 +258,7 @@ Maintenance Team:
 
 - **Popat Hiren** - [hirenthakkar2758@gmail.com](mailto:hirenthakkar2758@gmail.com)
 - **Vatsal Suliya** - [vsuliya828@rku.ac.in](mailto:vsuliya828@rku.ac.in)
-- **Jigar Kalariya** - [klimbasiya667@rku.ac.in](mailto:klimbasiya667@rku.ac.in)
+- **Krens Limbasiya** - [klimbasiya667@rku.ac.in](mailto:klimbasiya667@rku.ac.in)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
