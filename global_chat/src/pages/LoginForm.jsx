@@ -98,19 +98,12 @@ const LoginForm = () => {
             <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Google Logo" className="w-5 h-5" />
             <span className="text-white">Google</span>
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-sm transition bg-gray-800 rounded shadow md:text-base hover:bg-gray-700">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook Logo" className="w-5 h-5" />
-            <span className="text-white">Facebook</span>
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 text-sm transition bg-gray-800 rounded shadow md:text-base hover:bg-gray-700">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub Logo" className="w-5 h-5" />
-            <span className="text-white">GitHub</span>
-          </button>
+         
         </div>
 
         {/* Signup Link */}
         <p className="mt-4 text-sm text-center text-gray-400 sm:text-base">
-          Don't have an account? <Link to="/SignupForm" className="text-blue-500 underline">Signup</Link>
+          Don not have an account? <Link to="/SignupForm" className="text-blue-500 underline">Signup</Link>
         </p>
       </div>
     </div>

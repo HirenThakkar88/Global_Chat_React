@@ -7,6 +7,10 @@ import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
+import ForgotPassword from "./pages/ForgotPassword";
+
 
 const App = () => {
   // Add inside the component:
@@ -42,6 +46,8 @@ const App = () => {
           path="/SignupForm"
           element={!authUser ? <SignupForm /> : <Navigate to="/" />}
         />
+         <Route path="/ForgotPassword" element={<ForgotPassword/>} />
+         <Route path="/ProfilePage" element={authUser ?< ProfilePage/> : <Navigate to="/LoginForm" />} />
       </Routes>
 
       <Toaster />

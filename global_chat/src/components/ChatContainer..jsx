@@ -1,23 +1,29 @@
-import { useState, useEffect, useRef } from "react";
+import { useChatStore } from "../store/useChatStore";
+import { useEffect, useRef } from "react";
+import ChatHeader from "./ChatHeader";
+import { useAuthStore } from "../store/useAuthStore";
+import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
-  const [messages, setMessages] = useState([
-    { _id: "1", senderId: "1", text: "Hello!", createdAt: "2025-04-01T10:00:00Z", image: null },
-    { _id: "2", senderId: "2", text: "Hi, how are you?", createdAt: "2025-04-01T10:05:00Z", image: null },
-    { _id: "3", senderId: "1", text: "I'm good, thanks!", createdAt: "2025-04-01T10:10:00Z", image: null },
-    { _id: "4", senderId: "2", text: null, createdAt: "2025-04-01T10:15:00Z", image: "/path/to/image.jpg" },
-  ]);
-  const [selectedUser, setSelectedUser] = useState({
-    _id: "2",
-    profilePic: "/avatar.png",
-  });
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isMessagesLoading, setIsMessagesLoading] = useState(false);
-  const authUser = { _id: "1", profilePic: "/avatar.png" }; // Dummy auth user
+  const {
+    messages,
+    getMessages,
+    isMessagesLoading,
+    selectedUser,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+    searchQuery,
+  } = useChatStore();
+  const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
   useEffect(() => {
-    // Scroll to the bottom whenever new messages are added
+    getMessages(selectedUser._id);
+    subscribeToMessages();
+    return () => unsubscribeFromMessages();
+  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
+
+  useEffect(() => {
     if (messageEndRef.current && messages) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -32,8 +38,7 @@ const ChatContainer = () => {
     return (
       <div className="flex flex-col flex-1 overflow-auto">
         <ChatHeader />
-        <MessageSkeleton />
-        <MessageInput />
+        
       </div>
     );
   }
@@ -60,7 +65,11 @@ const ChatContainer = () => {
               <div className="chat-image avatar">
                 <div className="border rounded-full size-10">
                   <img
-                    src={message.senderId === authUser._id ? authUser.profilePic : selectedUser.profilePic}
+                    src={
+                      message.senderId === authUser._id
+                        ? authUser.profilePic || "/avatar.png"
+                        : selectedUser.profilePic || "/avatar.png"
+                    }
                     alt="profile pic"
                   />
                 </div>
@@ -85,7 +94,7 @@ const ChatContainer = () => {
         )}
       </div>
 
-      <MessageInput />
+      
     </div>
   );
 };

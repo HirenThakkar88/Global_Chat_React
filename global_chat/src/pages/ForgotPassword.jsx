@@ -1,93 +1,76 @@
-import { useState } from "react";
-import { Camera, Mail, User } from "lucide-react";
+// eslint-disable-next-line no-unused-vars
+import React from "react";
 
-const ProfilePage = () => {
-  const [selectedImg, setSelectedImg] = useState(null);
-  const dummyUser = {
-    fullName: "John Doe",
-    email: "johndoe@example.com",
-    profilePic: "/avatar.png",
-    createdAt: "2024-01-01T00:00:00Z",
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setSelectedImg(reader.result);
-    };
-  };
-
+function ForgotPassword() {
   return (
-    <div className="min-h-screen pt-20">
-      <div className="max-w-2xl p-4 py-8 mx-auto">
-        <div className="p-6 space-y-8 bg-base-300 rounded-xl">
-          <div className="text-center">
-            <h1 className="text-2xl font-semibold">Profile</h1>
-            <p className="mt-2">Your profile information</p>
-          </div>
+    <div className="flex flex-col-reverse items-center justify-between min-h-screen p-4 bg-black font-noto-sans md:flex-row md:p-8">
+      {/* Left Section */}
+      <div className="text-center md:text-left md:w-1/2 lg:w-1/3">
+        <h1 className="text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+          No Worries<span className="text-purple-500">.!!</span>
+        </h1>
+        <button className="px-6 py-3 mt-4 text-sm text-black transition bg-white rounded-full shadow-md md:text-base hover:bg-gray-200">
+          Take me back.!
+        </button>
+      </div>
 
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative">
-              <img
-                src={selectedImg || dummyUser.profilePic}
-                alt="Profile"
-                className="object-cover border-4 rounded-full size-32"
-              />
-              <label
-                htmlFor="avatar-upload"
-                className="absolute bottom-0 right-0 bg-base-content hover:scale-105 p-2 rounded-full cursor-pointer transition-all duration-200"
-              >
-                <Camera className="w-5 h-5 text-base-200" />
-                <input
-                  type="file"
-                  id="avatar-upload"
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                />
-              </label>
-            </div>
-            <p className="text-sm text-zinc-400">Click the camera icon to update your photo</p>
-          </div>
+      {/* Right Section */}
+      <div className="relative w-full max-w-sm p-6 border border-white rounded-lg shadow-lg sm:max-w-md md:w-1/2 lg:w-1/3 bg-gradient-to-br from-gray-900 to-black sm:p-8">
+        {/* Gradient Circle */}
+        <div className="absolute w-32 h-32 bg-gradient-to-r from-purple-500 to-pink-500 blur-3xl top-[-30px] right-[-40px]"></div>
 
-          <div className="space-y-6">
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <User className="w-4 h-4" />
-                Full Name
-              </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{dummyUser.fullName}</p>
-            </div>
+        <h2 className="mb-2 text-xl font-bold text-white sm:text-2xl md:text-3xl">
+          Forgot Password ?
+        </h2>
+        <p className="mb-6 text-sm text-gray-400 sm:text-base">
+          Please enter your email
+        </p>
 
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <Mail className="w-4 h-4" />
-                Email Address
-              </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{dummyUser.email}</p>
-            </div>
-          </div>
+        {/* Form */}
+        <form className="space-y-4">
+          <input
+            type="email"
+            placeholder="example@mail.com"
+            className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-purple-500"
+          />
+          <button
+            type="submit"
+            className="w-full py-3 text-sm text-white transition rounded-md shadow-lg md:text-base bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90"
+          >
+            Reset Password
+          </button>
+        </form>
 
-          <div className="p-6 mt-6 bg-base-300 rounded-xl">
-            <h2 className="mb-4 text-lg font-medium">Account Information</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between py-2 border-b border-zinc-700">
-                <span>Member Since</span>
-                <span>{dummyUser.createdAt.split("T")[0]}</span>
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <span>Account Status</span>
-                <span className="text-green-500">Active</span>
-              </div>
-            </div>
-          </div>
+        {/* Divider */}
+        <div className="flex items-center my-6">
+          <span className="flex-grow h-px bg-gray-700"></span>
+          <p className="px-4 text-sm text-gray-400 sm:text-base">Or</p>
+          <span className="flex-grow h-px bg-gray-700"></span>
+        </div>
+
+        {/* Signup Link */}
+        <p className="mt-4 text-sm text-center text-gray-400 sm:text-base">
+          Don’t have an account?{" "}
+          <a href="/SignupForm" className="text-purple-500 underline">
+            Signup
+          </a>
+        </p>
+
+        {/* Footer Links */}
+        <div className="flex justify-between mt-6 text-xs text-gray-400 sm:text-sm">
+          <a href="#" className="transition hover:text-white">
+            Terms & Conditions
+          </a>
+          <a href="#" className="transition hover:text-white">
+            Support
+          </a>
+          <a href="#" className="transition hover:text-white">
+            Customer Care
+          </a>
         </div>
       </div>
     </div>
   );
-};
-export default ProfilePage;
+}
+
+export default ForgotPassword;
