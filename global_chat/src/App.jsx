@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
+import Navbar from "./components/Navbar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginForm from "./pages/LoginForm";
 import SignupForm from "./pages/SignupForm";
@@ -33,6 +34,7 @@ const App = () => {
 
   return (
     <div>
+      <Navbar />
       <Routes>
         <Route
           path="/"
