@@ -1,4 +1,4 @@
-// utils.js
+
 export const groupMessagesByDate = (messages) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
@@ -8,7 +8,7 @@ export const groupMessagesByDate = (messages) => {
     messageDate.setHours(0, 0, 0, 0); // Compare dates without time
 
     const diffDays = Math.round((today - messageDate) / (1000 * 60 * 60 * 24));
-    
+
     let dateLabel;
     if (diffDays === 0) {
       dateLabel = 'Today';
@@ -30,7 +30,7 @@ export const groupMessagesByDate = (messages) => {
   }, {});
 };
 
-// Your existing time formatter
+
 export function formatMessageTime(date) {
   return new Date(date).toLocaleTimeString('en-US', {
     hour: '2-digit',

@@ -6,14 +6,16 @@ import LoginForm from "./pages/LoginForm";
 import SignupForm from "./pages/SignupForm";
 import ForgotPassword from "./pages/ForgotPassword";
 import HomePage from "./pages/HomePage";
+import SettingPage from "./pages/SettingPage";
 import ProfilePage from "./pages/ProfilePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
-
+import { useThemeStore } from "./store/useThemeStore";
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+  const { theme } = useThemeStore();
 
   console.log(onlineUsers);
 
@@ -31,7 +33,7 @@ const App = () => {
     );
 
   return (
-    <div>
+    <div data-theme={theme}>
       <Navbar />
 
       <Routes>
@@ -48,6 +50,7 @@ const App = () => {
           element={!authUser ? <SignupForm /> : <Navigate to="/" />}
         />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/SettingPage" element={< SettingPage/>} />
         <Route
           path="/ProfilePage"
           element={authUser ? <ProfilePage /> : <Navigate to="/LoginForm" />}
