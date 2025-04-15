@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
-
+import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users, Search } from "lucide-react";
 
 const Sidebar = () => {
-  const { getUsers, users, selectedUser, setSelectedUser } = useChatStore();
+  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
   const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +20,7 @@ const Sidebar = () => {
     return matchesOnlineFilter && matchesSearch;
   });
 
-
+  if (isUsersLoading) return <SidebarSkeleton />;
 
   return (
     <aside className="flex flex-col w-20 h-full transition-all duration-200 border-r lg:w-72 border-base-300">
