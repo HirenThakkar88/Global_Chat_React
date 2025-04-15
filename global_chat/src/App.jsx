@@ -4,17 +4,15 @@ import Navbar from "./components/Navbar";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginForm from "./pages/LoginForm";
 import SignupForm from "./pages/SignupForm";
+import ForgotPassword from "./pages/ForgotPassword";
+import HomePage from "./pages/HomePage";
+import ProfilePage from "./pages/ProfilePage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Loader } from "lucide-react";
 import { Toaster } from "react-hot-toast";
-import HomePage from "./pages/HomePage";
-import ProfilePage from "./pages/ProfilePage";
-import ForgotPassword from "./pages/ForgotPassword";
-
 
 const App = () => {
-  // Add inside the component:
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
 
   console.log(onlineUsers);
@@ -35,6 +33,7 @@ const App = () => {
   return (
     <div>
       <Navbar />
+
       <Routes>
         <Route
           path="/"
@@ -48,8 +47,11 @@ const App = () => {
           path="/SignupForm"
           element={!authUser ? <SignupForm /> : <Navigate to="/" />}
         />
-         <Route path="/ForgotPassword" element={<ForgotPassword/>} />
-         <Route path="/ProfilePage" element={authUser ?< ProfilePage/> : <Navigate to="/LoginForm" />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route
+          path="/ProfilePage"
+          element={authUser ? <ProfilePage /> : <Navigate to="/LoginForm" />}
+        />
       </Routes>
 
       <Toaster />
