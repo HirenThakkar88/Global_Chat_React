@@ -11,6 +11,7 @@
   "type": "module",
   "description": "",
   "dependencies": {
+    "@zegocloud/zego-uikit-prebuilt": "^2.14.3-beta",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.1",
     "cookie-parser": "^1.4.7",
@@ -23,7 +24,8 @@
     "react-hot-toast": "^2.5.1",
     "socket.io": "^4.8.1",
     "uuid": "^11.0.5",
-    "vite-plugin-node-polyfills": "^0.23.0"
+    "vite-plugin-node-polyfills": "^0.23.0",
+    "zego-zim-web": "^2.20.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
