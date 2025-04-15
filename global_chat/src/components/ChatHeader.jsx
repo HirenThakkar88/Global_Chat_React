@@ -1,18 +1,95 @@
-/* eslint-disable no-unused-vars */
 import { X, Phone, Video, MoreVertical, Search } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
-
+import { ZIM } from "zego-zim-web";
+import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import toast from "react-hot-toast";
 
 const ChatHeader = () => {
-  const { selectedUser, setSelectedUser, searchQuery, setSearchQuery } =
-    useChatStore();
-  const { onlineUsers } = useAuthStore();
+  const { selectedUser, setSelectedUser, searchQuery, setSearchQuery } = useChatStore();
+  const { onlineUsers, authUser } = useAuthStore();
   const [showMenu, setShowMenu] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const menuRef = useRef(null);
+
+  // ZegoCloud configuration
+  const appID = parseInt(import.meta.env.VITE_appID);
+  const serverSecret = import.meta.env.VITE_serverSecret;
+
+  const handleCall = async (callType) => {
+    if (!selectedUser) {
+      toast.error("No user selected");
+      return;
+    }
+
+    if (!onlineUsers.includes(selectedUser._id)) {
+      toast.error("User is currently offline");
+      return;
+    }
+
+    try {
+      // Generate unique room ID
+      const roomID = `call_${Date.now()}_${authUser._id}_${selectedUser._id}`;
+      
+      // Generate ZegoCloud token
+      const token = ZegoUIKitPrebuilt.generateKitTokenForTest(
+        appID,
+        serverSecret,
+        roomID,
+        authUser._id,
+        authUser.fullName
+      );
+
+      // Create and configure Zego instance
+      const zp = ZegoUIKitPrebuilt.create(token);
+      await zp.addPlugins({ ZIM });
+      
+      // Set language and scenario configuration
+      zp.setLanguage('en-US');
+      const config = {
+        scenario: {
+          mode: ZegoUIKitPrebuilt.OneONoneCall,
+        },
+        turnOnMicrophoneWhenJoining: callType === ZegoUIKitPrebuilt.InvitationTypeVoiceCall,
+        turnOnCameraWhenJoining: callType === ZegoUIKitPrebuilt.InvitationTypeVideoCall,
+      };
+
+      // Send call invitation with proper configuration
+      zp.sendCallInvitation({
+        callees: [{ 
+          userID: selectedUser._id, 
+          userName: selectedUser.fullName 
+        }],
+        callType,
+        config,
+        timeout: 60,
+      })
+      .then((res) => {
+        if (res.errorInvitees.length > 0) {
+          toast.error("User unavailable or offline");
+        } else {
+          // Join the call room after sending invitation
+          zp.enterRoom({
+            container: document.createElement('div'), // Create temporary container
+            scenario: {
+              mode: ZegoUIKitPrebuilt.OneONoneCall,
+            },
+            showPreJoinView: false,
+          });
+          toast.success("Call initiated!");
+        }
+      })
+      .catch((error) => {
+        console.error("Call failed:", error);
+        toast.error("Failed to start call");
+      });
+
+    } catch (error) {
+      console.error("Call initialization error:", error);
+      toast.error(error.message || "Call setup failed");
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -71,6 +148,7 @@ const ChatHeader = () => {
           )}
 
           <button
+            onClick={() => handleCall(ZegoUIKitPrebuilt.InvitationTypeVoiceCall)}
             className="p-2 rounded-full hover:bg-base-200"
             disabled={!selectedUser}
           >
@@ -78,6 +156,7 @@ const ChatHeader = () => {
           </button>
 
           <button
+            onClick={() => handleCall(ZegoUIKitPrebuilt.InvitationTypeVideoCall)}
             className="p-2 rounded-full hover:bg-base-200"
             disabled={!selectedUser}
           >

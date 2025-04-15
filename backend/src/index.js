@@ -5,7 +5,7 @@ import { connectDB } from "./lib/db.js";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.route.js";
-import callRoutes from "./routes/call.route.js";
+
 import messageRoutes from "./routes/message.route.js";
 import { app, server } from "./lib/socket.js";
 
@@ -26,7 +26,7 @@ app.use(cors({
 }));
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-app.use("/api/calls", callRoutes);
+
 
 
 server.listen(PORT,()=> {
