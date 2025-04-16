@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import {
-  Eye,
-  EyeOff,
-  Loader2,
-  MessageSquare,
-} from "lucide-react";
+import { Eye, EyeOff, Loader2, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -65,7 +61,6 @@ const SignupForm = () => {
             name="fullName"
             placeholder="Full Name"
             className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
-           
             value={formData.fullName}
             onChange={(e) =>
               setFormData({ ...formData, fullName: e.target.value })
@@ -76,7 +71,6 @@ const SignupForm = () => {
             name="email"
             placeholder="Email"
             className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
-        
             value={formData.email}
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
@@ -88,7 +82,6 @@ const SignupForm = () => {
               name="password"
               placeholder="Password"
               className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
-             
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -111,7 +104,6 @@ const SignupForm = () => {
             name="confirmPassword"
             placeholder="Confirm Password"
             className="w-full px-4 py-3 text-sm text-white bg-transparent border border-gray-600 rounded-md outline-none md:text-base focus:ring-2 focus:ring-blue-500"
-           
             value={formData.confirmPassword}
             onChange={(e) =>
               setFormData({ ...formData, confirmPassword: e.target.value })
@@ -137,15 +129,21 @@ const SignupForm = () => {
         </div>
 
         <div className="flex justify-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 text-sm transition bg-gray-800 rounded shadow md:text-base hover:bg-gray-700">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"
-              alt="Google"
-              className="w-5 h-5"
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                await useAuthStore
+                  .getState()
+                  .googleLogin(credentialResponse.credential);
+              }}
+              onError={() => {
+                toast.error("Google login failed");
+              }}
+              theme="filled_black"
+              shape="pill"
+              text="continue_with"
             />
-            <span className="text-white">Google</span>
-          </button>
-          
+          </GoogleOAuthProvider>
         </div>
         <p className="mt-4 text-sm text-center text-gray-400 sm:text-base">
           Already Registered?{" "}
