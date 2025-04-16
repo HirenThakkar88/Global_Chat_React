@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -94,10 +96,19 @@ const LoginForm = () => {
 
         {/* Social Buttons */}
         <div className="flex justify-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 text-sm transition bg-gray-800 rounded shadow md:text-base hover:bg-gray-700">
-            <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Google Logo" className="w-5 h-5" />
-            <span className="text-white">Google</span>
-          </button>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <GoogleLogin
+      onSuccess={async (credentialResponse) => {
+        await useAuthStore.getState().googleLogin(credentialResponse.credential);
+      }}
+      onError={() => {
+        toast.error('Google login failed');
+      }}
+      theme="filled_black"
+      shape="pill"
+      text="continue_with"
+    />
+  </GoogleOAuthProvider>
          
         </div>
 

@@ -85,6 +85,26 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
+  googleLogin: async (tokenId) => {
+    try {
+      const res = await axiosInstance.post('/auth/google', { tokenId });
+      
+      if (res.data.requiresPasswordSetup) {
+        window.location.href = '/set-password';
+        return;
+      }
+      
+  
+      set({ authUser: res.data });
+      localStorage.setItem('authUser', JSON.stringify(res.data));
+      toast.success('Login successful!');
+      get().connectSocket();
+      
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Google login failed');
+    }
+  },
+
   connectSocket: () => {
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;

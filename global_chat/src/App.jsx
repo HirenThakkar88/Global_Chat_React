@@ -15,6 +15,7 @@ import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/useThemeStore";
 import ZegoCallReceiver from "./components/ZegoCallReceiver";
 import ErrorBoundary from "./components/ErrorBoundary";
+import SetPasswordPage from "./pages/SetPasswordPage";
 const App = () => {
 
   const { authUser,checkAuth, isCheckingAuth,onlineUsers }= useAuthStore();
@@ -45,12 +46,33 @@ const App = () => {
       </ErrorBoundary>
 
       <Routes>
-        <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/LoginForm" />} />
+      <Route
+          path="/"
+          element={
+            authUser ? (
+              <HomePage />
+            ) : (
+              <Navigate to="/LoginForm" />
+            )
+          }
+        />
         <Route path="/LoginForm" element={!authUser ?<LoginForm /> : <Navigate to="/" />} />
         <Route path="/SignupForm" element={!authUser ?<SignupForm /> : <Navigate to="/" />} />
         <Route path="/ForgotPassword" element={<ForgotPassword/>} />
         <Route path="/SettingPage" element={< SettingPage/>} />
         <Route path="/ProfilePage" element={authUser ?< ProfilePage/> : <Navigate to="/LoginForm" />} />
+        <Route
+          path="/set-password"
+          element={
+            authUser ? (
+              <SetPasswordPage />
+            ) : (
+              <Navigate to="/LoginForm" />
+            )
+          }
+        />
+        {/* Add redirect for any unknown paths */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       
 
