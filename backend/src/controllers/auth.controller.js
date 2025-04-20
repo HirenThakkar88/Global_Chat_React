@@ -4,6 +4,11 @@ import bcrypt from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js";
 import { OAuth2Client } from 'google-auth-library';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+
+
+
 
 
 //For Signup

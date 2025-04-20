@@ -8,9 +8,11 @@ import authRoutes from "./routes/auth.route.js";
 
 import messageRoutes from "./routes/message.route.js";
 import { app, server } from "./lib/socket.js";
+import forgotpass from "./controllers/forgotpassword.js";
 
 
 import cors from "cors";
+
 
 dotenv.config();
 
@@ -26,6 +28,7 @@ app.use(cors({
 }));
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/pass", forgotpass);
 
 
 

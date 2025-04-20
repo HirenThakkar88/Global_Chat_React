@@ -183,13 +183,13 @@ const ChatHeader = () => {
                   <Search size={16} />
                   Search Chat
                 </button>
-                <button
+                {/* <button
                   onClick={() => console.log("Block user:", selectedUser._id)}
                   className="flex items-center w-full gap-2 px-4 py-2 text-sm hover:bg-base-200 text-error"
                 >
                   <X size={16} />
                   Block User
-                </button>
+                </button> */}
               </div>
             )}
           </div>

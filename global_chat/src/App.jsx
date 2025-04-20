@@ -16,6 +16,7 @@ import { useThemeStore } from "./store/useThemeStore";
 import ZegoCallReceiver from "./components/ZegoCallReceiver";
 import ErrorBoundary from "./components/ErrorBoundary";
 import SetPasswordPage from "./pages/SetPasswordPage";
+import ResetPassword from "./pages/resetpass";
 const App = () => {
 
   const { authUser,checkAuth, isCheckingAuth,onlineUsers }= useAuthStore();
@@ -71,8 +72,14 @@ const App = () => {
             )
           }
         />
+        <Route 
+          path="/reset-password/:token" 
+          element={!authUser ? <ResetPassword /> : <Navigate to="/" />}
+        />
+        
         {/* Add redirect for any unknown paths */}
-        <Route path="*" element={<Navigate to="/" />} />
+        
+
       </Routes>
       
 
