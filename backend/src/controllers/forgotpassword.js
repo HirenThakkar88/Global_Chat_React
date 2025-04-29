@@ -7,10 +7,10 @@ import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 
 const forgotpass  = express.Router();
-
+//make sure you disbaled 2 step verification
 const JWT_SECRET = process.env.JWT_SECRET;
-const EMAIL_USER = 'hpopat503@rku.ac.in';
-const EMAIL_PASS = 'hiren@@__880022'
+const EMAIL_USER = 'youru email';
+const EMAIL_PASS = 'your password'
 
 // Configure email transporter
 const transporter = nodemailer.createTransport({
